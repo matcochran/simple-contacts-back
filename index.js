@@ -47,7 +47,7 @@ const generateId = () => {
 
 app.post("/api/contacts", (request, response) => {
   const body = request.body;
-
+  console.log(body);
   if (!body.content) {
     return response.status(400).json({
       error: "content missing",
