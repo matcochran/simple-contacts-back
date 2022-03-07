@@ -47,8 +47,7 @@ const generateId = () => {
 
 app.post("/api/contacts", (request, response) => {
   const body = request.body;
-  console.log(body);
-  if (!body.content) {
+  if (!body.firstName || !body.lastName || !body.email || !body.mobile) {
     return response.status(400).json({
       error: "content missing",
     });
@@ -68,13 +67,19 @@ app.post("/api/contacts", (request, response) => {
   response.json(contact);
 });
 
-app.put("/api/contact/:id", (request, response) => {
+app.put("/api/contacts/:id", (request, response) => {
   const id = +request.params.id;
+  const body = request.body;
   const contact = contacts.find((contact) => contact.id === id);
 
-  contact.firstName = request.params.firstName;
-  contact.lastName = request.params.lastName;
-  contact.email = request.params.email;
+  if (!body.firstName || !body.lastName || !body.email || !body.mobile) {
+    return response.status(400).json({
+      error: "content missing",
+    });
+  }
+  contact.firstName = body.firstName;
+  contact.lastName = body.lastName;
+  contact.email = body.email;
 
   response.json(contact);
 });
